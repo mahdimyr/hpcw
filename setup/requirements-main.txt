@@ -1,0 +1,22 @@
+# Main workshop environment (examples 00, 01, 02, 03-hf, 04, 05).
+# Installed from the Alliance wheelhouse:  pip install --no-index -r requirements-main.txt
+# `avail_wheels <name>` lists the versions available there.
+
+# PyTorch
+torch==2.14.1
+torchvision==0.29.1
+triton==3.6.0               # compiler behind torch.compile
+
+# Hugging Face ecosystem
+transformers==5.20.1
+accelerate==1.14.0
+datasets==5.0.0
+peft==0.19.1                # LoRA adapters
+trl==1.7.1                  # supervised fine-tuning trainer
+diffusers==0.38.0           # image generation
+
+# Fast kernels for hybrid linear-attention models such as Qwen3.5
+flash_linear_attention==0.4.1
+
+matplotlib==3.10.8
+tqdm==4.70.1

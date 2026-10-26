@@ -1,0 +1,3 @@
+# vLLM environment (example 03). Kept separate from the main environment because
+# vLLM pins its own PyTorch version (2.11 here) and is ~6 GB.
+vllm==0.25.0

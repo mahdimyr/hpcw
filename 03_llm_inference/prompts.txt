@@ -1,0 +1,4 @@
+In three sentences, explain what a supercomputer is to a ten-year-old.
+Write a Slurm batch script that runs `python train.py` on one GPU for two hours.
+What is the difference between a CPU core and a GPU streaming multiprocessor?
+Write a haiku about waiting in a job queue.

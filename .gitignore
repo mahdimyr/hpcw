@@ -1,0 +1,29 @@
+# Slurm job logs
+*.out
+*.err
+*.log
+
+# Generated results and model checkpoints
+outputs/
+*.pt
+*.pth
+*.safetensors
+
+# Python caches and local environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.cache/
+.ipynb_checkpoints/
+
+# Local credentials and vLLM connection details (contains its API key)
+vllm-server.env
+.env
+.env.*
+!.env.example
+/.aws/
+
+# Local assistant settings
+/.agents/
+/.codex/
