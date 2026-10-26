@@ -20,7 +20,7 @@ NVIDIA A100, so a whole class can run them at the same time.
 Log in to Plato, then:
 
 ```bash
-cp -r <workshop folder> ~/hpcw          # or: git clone <repository URL> ~/hpcw
+git clone https://github.com/mahdimyr/hpcw.git ~/hpcw
 cd ~/hpcw/00_gpu_hello
 sbatch job.sh                           # submit the job
 squeue --me                             # watch it: PD = pending, R = running
