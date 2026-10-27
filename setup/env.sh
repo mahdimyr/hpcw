@@ -3,8 +3,8 @@
 #     source setup/env.sh          # PyTorch + Hugging Face environment
 #     source setup/env.sh vllm     # vLLM environment (example 03)
 #
-# It loads the modules, activates a Python virtual environment and points every
-# cache (models, compiled kernels, ...) at /scratch instead of your home directory.
+# It loads the modules, activates a Python virtual environment and keeps every
+# cache (downloads, compiled kernels, ...) in the work/ folder of this repository.
 # Every variable can be overridden by exporting it before sourcing this file.
 
 _hpcw_kind=${1:-main}
@@ -12,8 +12,9 @@ _hpcw_setup=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
 # Read-only area prepared by the instructor: Python environments, models, datasets.
 export HPCW_SHARED=${HPCW_SHARED:-/scratch/tus210/hpcw-shared}
-# Your own working area: outputs, checkpoints and caches.
-export HPCW_WORK=${HPCW_WORK:-/scratch/$USER/hpcw}
+# Your own working area, inside this repository: caches and environments you build
+# yourself. (The examples write their results to outputs/ in their own folders.)
+export HPCW_WORK=${HPCW_WORK:-$(dirname "$_hpcw_setup")/work}
 export HPCW_DATA=${HPCW_DATA:-$HPCW_SHARED/data}
 mkdir -p "$HPCW_WORK"
 
@@ -48,7 +49,7 @@ if [[ ! -t 1 ]]; then
 fi
 
 # JIT-compiled GPU kernels (torch.compile, Triton, vLLM) are cached on disk so the
-# second run starts much faster. Keep these caches out of your home quota.
+# second run starts much faster.
 export TRITON_CACHE_DIR=${TRITON_CACHE_DIR:-$HPCW_WORK/cache/triton}
 export TORCHINDUCTOR_CACHE_DIR=${TORCHINDUCTOR_CACHE_DIR:-$HPCW_WORK/cache/inductor}
 export VLLM_CACHE_ROOT=${VLLM_CACHE_ROOT:-$HPCW_WORK/cache/vllm}

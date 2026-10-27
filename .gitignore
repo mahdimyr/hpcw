@@ -5,6 +5,7 @@
 
 # Generated results and model checkpoints
 outputs/
+work/
 *.pt
 *.pth
 *.safetensors

@@ -7,17 +7,17 @@
 #   vllm  vLLM inference engine,        ~3 min, ~6 GB
 #
 # Runs fine on a login node: wheels come from CVMFS, nothing is compiled.
-# Default target: /scratch/$USER/hpcw/venv (or venv-vllm).
+# Default target: work/venv (or work/venv-vllm) in this repository.
 set -euo pipefail
 
 kind=${1:-main}
+setup=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 case $kind in
-    main) default_target=/scratch/$USER/hpcw/venv ;;
-    vllm) default_target=/scratch/$USER/hpcw/venv-vllm ;;
+    main) default_target=$(dirname "$setup")/work/venv ;;
+    vllm) default_target=$(dirname "$setup")/work/venv-vllm ;;
     *) echo "usage: $0 [main|vllm] [target_dir]" >&2; exit 1 ;;
 esac
 target=${2:-$default_target}
-setup=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
 if [[ -e $target ]]; then
     echo "$target already exists; remove it first if you want to rebuild." >&2

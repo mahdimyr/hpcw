@@ -60,7 +60,7 @@ sbatch job_vllm.sh                               # 256 prompts
 
 That is about 70 times the tokens/s of `chat.py` on the same GPU slice. Startup is
 slow the first time (it compiles the model and captures CUDA graphs). Those are
-cached in `$HPCW_WORK/cache/vllm`, so the next start is faster. vLLM lives in its
+cached in the repository's `work/cache/vllm`, so the next start is faster. vLLM lives in its
 own Python environment (`source ../setup/env.sh vllm`) because it pins its own
 PyTorch version.
 

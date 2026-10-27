@@ -91,10 +91,10 @@ The examples print their own throughput (images/s, tokens/s) instead.
 | `/scratch/$USER` | large, **not** backed up | environments, datasets, large checkpoints, model caches |
 | `$SLURM_TMPDIR` | ~200 GB local NVMe per GPU node, deleted when the job ends | fast scratch space during a job ([example](01_cifar10_resnet/job.sh)) |
 
-Each example writes its results to an `outputs/` folder next to its job script
-(about 400 MB for one pass through all of them). Caches and your own environments
-go to `/scratch/$USER/hpcw` (`$HPCW_WORK`). In your own projects, put checkpoints of
-several GB on `/scratch`, e.g. `sbatch job.sh --out-dir /scratch/$USER/my-run`.
+Everything the examples write stays inside your copy of this repository: results in
+an `outputs/` folder next to each job script, caches (and any environment you build)
+in `work/`. One pass through all the examples uses about 1 GB. In your own projects,
+put checkpoints of several GB on `/scratch`, e.g. `sbatch job.sh --out-dir /scratch/$USER/my-run`.
 
 ---
 
@@ -106,7 +106,7 @@ Every job script starts with `source ../setup/env.sh`. [setup/env.sh](setup/env.
    `datasets`), plus `opencv` for vLLM ([setup/modules.sh](setup/modules.sh));
 2. activates a Python virtual environment, by default the one prepared for the
    workshop;
-3. points all caches (Hugging Face, Triton, torch.compile, vLLM) at `/scratch`.
+3. keeps all caches (Hugging Face, Triton, torch.compile, vLLM) in the repository's `work/` folder.
 
 Plato uses the **Alliance (Compute Canada) software stack**: thousands of
 modules (`module avail`, `module spider <name>`) and a "wheelhouse" of Python
@@ -123,8 +123,8 @@ There are two environments, because vLLM requires its own PyTorch version:
 ### Exercise: build your own environment
 
 ```bash
-setup/build_env.sh main                        # ~1 minute, into /scratch/$USER/hpcw/venv
-export HPCW_VENV=/scratch/$USER/hpcw/venv      # env.sh now uses yours
+setup/build_env.sh main                        # ~1 minute, 2 GB, into work/venv
+export HPCW_VENV=$PWD/work/venv                # env.sh now uses yours
 source setup/env.sh
 avail_wheels scikit-learn                      # is it in the wheelhouse?
 pip install --no-index scikit-learn            # add a package
@@ -190,7 +190,7 @@ If you choose another location, change `HPCW_SHARED` in [setup/env.sh](setup/env
 - Make sure attendees can read the shared area: log in as a test attendee and run
   `source setup/env.sh && python -c "import torch"`.
 - Run each example once yourself. `vllm`, `torch.compile` and Qwen3.5 compile GPU
-  kernels on first use, and these caches are per user (`$HPCW_WORK/cache`), so
+  kernels on first use, and these caches are per person (`work/cache` in each copy), so
   attendees' first runs of example 03 take 2-3 minutes longer than later ones.
 - Check `/scratch`'s purge policy, so the shared area isn't deleted before the day.
 - **GPU capacity.** Educational (`hpc_s_...`) accounts can use only the two full A100s
